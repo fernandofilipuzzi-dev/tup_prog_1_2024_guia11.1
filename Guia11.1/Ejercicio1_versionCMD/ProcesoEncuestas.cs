@@ -1,0 +1,139 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+
+namespace EncuestasLib
+{
+    public class ProcesoEncuestas
+    {
+        Encuesta[] contactables;
+        public int CantContactables { get; private set; }
+
+        int cantBicleta;
+        int cantAuto;
+        int cantTranspPublico;
+        int cantEncuestas;
+
+        public double PorcBicleta 
+        { 
+            get 
+            {
+                double porc = 0;
+                if (cantEncuestas > 0) 
+                    porc = 100d * cantBicleta / cantEncuestas;
+                return porc;
+             } 
+        }
+        public double PorcAuto 
+        {
+            get
+            {
+                double porc = 0;
+                if (cantEncuestas > 0) 
+                    porc = 100d * cantAuto / cantEncuestas;
+                return porc;
+            }
+        }
+        public double PorcTranspPublico 
+        {
+            get
+            {
+                double porc = 0;
+                if (cantEncuestas > 0) 
+                    porc = 100d * cantTranspPublico / cantEncuestas;
+                return porc;
+            }
+        }
+
+        public ProcesoEncuestas()
+        {
+           contactables = new Encuesta[100];
+           CantContactables = 0;
+        }
+
+        public void RegistrarEncuesta(Encuesta nuevo, bool puedeSerCantactado)
+        {
+            cantEncuestas++;
+
+            if (nuevo.UsaBicicleta) cantBicleta++;
+            if (nuevo.UsaAuto) cantAuto++;
+            if (nuevo.UsaTransportePublico) cantTranspPublico++;
+
+            if (puedeSerCantactado == true)
+            {
+                contactables[CantContactables] = nuevo;
+                CantContactables++;
+            }
+        }
+
+        public Encuesta VerContactable(int idx)
+        {
+            Encuesta buscado = null;
+<<<<<<<< HEAD:EncuestasMediosTransporte/EncuestasCMD/ProcesoEncuestas.cs
+            if(idx>=0 && idx<CantContactables)
+                buscado= contactables[idx];
+========
+            if (idx >= 0 && idx < CantContactables)
+            {
+                buscado = contactables[idx];
+            }
+>>>>>>>> web:EncuestasMediosTransporte/EncuestasLib/ProcesoEncuestas.cs
+            return buscado;
+        }
+
+        public void OrdernarEncuestables()
+        {
+            QuickSort(contactables, 0, CantContactables-1);
+        }
+
+        void QuickSort(Encuesta[] lista, int inicio, int fin)
+        {
+<<<<<<<< HEAD:EncuestasMediosTransporte/EncuestasCMD/ProcesoEncuestas.cs
+            if (fin > inicio)
+            {
+                #region particion
+========
+            if (fin >= inicio)
+            {
+                //partición
+>>>>>>>> web:EncuestasMediosTransporte/EncuestasLib/ProcesoEncuestas.cs
+                Encuesta p = lista[inicio];
+                int m = inicio + 1;
+                int n = fin;
+                Encuesta aux;
+
+<<<<<<<< HEAD:EncuestasMediosTransporte/EncuestasCMD/ProcesoEncuestas.cs
+                while (m <= n)
+========
+                while (m <= n)//hasta que se crucen
+>>>>>>>> web:EncuestasMediosTransporte/EncuestasLib/ProcesoEncuestas.cs
+                {
+                    while (m <= fin && p.DistanciaASuDestino >= lista[m].DistanciaASuDestino) m++;
+                    while (n > inicio && p.DistanciaASuDestino <= lista[n].DistanciaASuDestino) n--;
+
+                    if (m < n)
+                    {
+                        aux = lista[m];
+                        lista[m] = lista[n];
+                        lista[n] = aux;
+                    }
+                }
+                lista[inicio] = lista[n];
+                lista[n] = p;
+<<<<<<<< HEAD:EncuestasMediosTransporte/EncuestasCMD/ProcesoEncuestas.cs
+                #endregion
+========
+                //fin partición
+>>>>>>>> web:EncuestasMediosTransporte/EncuestasLib/ProcesoEncuestas.cs
+
+                if (inicio < n - 1)
+                    QuickSort(lista, inicio, n - 1);
+                if (n + 1 < fin)
+                    QuickSort(lista, n + 1, fin);
+            }
+        }
+    }
+}
